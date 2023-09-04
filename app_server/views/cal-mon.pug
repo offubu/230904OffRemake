@@ -1,0 +1,187 @@
+extends layout
+
+block content
+  .row.banner
+    .col-12
+      h1 8th Fortnight of 2029 Calendar
+      h3  
+        small &nbsp;Fit user activities around the perception of their fatigue based on discussion and validations of their based opinions.
+  .row
+    .col-12.col-lg-10
+      .row
+        .col-12.col-md-8.location-map
+          .card.card-primary
+            .card-body
+              h2 Calendar / Timeslots 
+            .card-block.card-body 
+              p Show the named times of day as columns with rows of specific periods. Hovering over the periods shows the allocation and a "change" button, clicking on them could expose a sidebar or header with citations.
+              br
+              table
+                tbody 
+                  tr 
+                    td
+                      input(type="datetime-local", name="")
+                    a.btn.btn-primary.float-right(href='/location/review/new') Draft a schedule for your activities
+            .row
+              .col-12.col-md-3
+                .card-block.card-header
+                   .card-header 
+                    p Day
+                .card-body
+                  .card-body
+                    p Monday
+              .col-12.col-md-9
+                .row.card-header.col-12
+                  .col-3
+                    .card-header
+                      p Early AM
+                  .col-3
+                    .card-block.card-header
+                      p Morning
+                  .col-3
+                    .card-block.card-header
+                      p Afternoon
+                  .col-3
+                    .card-block.card-header
+                      p Evening
+            .row
+              .col-12.col-md-3
+                .card-body
+                  .col-12.card-body
+                    p Monday
+                .card-body
+                  .col-12.card-body
+                    p Tuesday
+                .card-body
+                  .col-12.card-body
+                    p Wednesday
+              .col-12.col-md-9
+                .row.card-body.col-12
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+                .row.card-body.col-12
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+                  .col-3
+                    .card-body
+                      p Geometry
+
+            .card-block.card-body 
+              h4 any times that align with the chosen named periods are under the named headings for the selected activities in  sequential order, not geometrically
+        .col-12.col-md-4
+          p.rating
+            i.fas.fa-star
+            i.fas.fa-star
+            i.fas.fa-star
+            i.far.fa-star
+            i.far.fa-star
+          p Current Adherence over 2 Fortnights is : Adherent
+          .card.card-primary
+            .card-body
+              h2.card-title Waking Active Times              
+              p dstore of average waking times, or fixed intended active times
+            .card-body
+              .card-header
+                p.card-text Early AM : 
+                  span.float-right 5:00am - 6:59am
+                p.card-text Morning : 
+                  span.float-right 7:00am - 11:59am
+                p.card-text Afternoon : 
+                  span.float-right 12:00pm - 4:59pm
+                p.card-text Eve : 
+                  span.float-right 5:00pm - 8:00pm            
+
+            a.btn.btn-primary.float-right(href='/location/review/new') Select your intended Waking Hours
+          .card.card-primary
+            .card-block
+              h2.card-title Modes
+              .card-header
+                span.badge.badge-warning
+                  i.fa.fa-check
+                  | &nbsp;InhibitoryControl:2
+                | &nbsp;
+                span.badge.badge-warning
+                  i.fa.fa-check
+                  | &nbsp;Fatigue:1
+                | &nbsp;
+                span.badge.badge-warning
+                  i.fa.fa-check
+                  | &nbsp;PriorityPA:MM
+                | &nbsp;
+          .card.card-primary
+            .card-block
+              h2.card-title JSON HEADER 
+              .card-header
+                p.lead
+                  | Filling with legible JSON will require a JSON formatter?
+                p
+                  br
+                  | rule inference for adherent, with ont-ised citation and rule inference for other requirements
+                  br  
+                  br
+                  | shP2hasType[?P,?adherentWhoAdherence]:- sh:E21Person[?P], sh:FW44PhysicalActivity[?PA], sh:FW41CarriedOutBy[?PA,?P], ...
+
+              
+      .row
+        .col-12
+          .card.card-primary.review-card
+            .card-block
+              a.btn.btn-primary.float-right(href='/location/review/new') Add review
+              h2.card-title Comments Generated from previous 3 or 4 weeks
+              .row.review
+                .col-12.no-gutters.review-header
+                  span.rating
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.far.fa-star
+                    i(style={color: 'red'}).far.fa-star
+                  span.reviewAuthor &nbsp;&nbsp; Fatigue change
+                  small.reviewTimestamp.float-right  16 February 2017
+                .col-12
+                  p Fatigue went from 2 to 1, maintain rest frequency, vm will likely raise fatigue to 2, increase tea/hydration/hot chocolate. trial admin, group admin and accepted aid/care users can push SLEEP EMOJI here
+              .row.review
+                .col-12.no-gutters.review-header
+                  span.rating
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.fas.fa-star
+                    i.far.fa-star
+                    i.far.fa-star
+                  span.reviewAuthor &nbsp;&nbsp; FOOD REQUEST
+                  small.reviewTimestamp.float-right 14 February 2017
+                .col-12
+                  p FOOD diary can post food emojis here. FOOD REQUESTS can also be made.
+    .col-12.col-lg-2
+      p.lead
+        | Filling with legible JSON will require a JSON formatter?
+      br
+      p
+        | Referecnces for citations 
+        br
+        br
+        | Main Citations 
+        br
+        br 
+        | Formatting 
+        br 
+        br 
+        | Examples
+
