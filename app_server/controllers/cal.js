@@ -57,8 +57,11 @@ for(let i=1;i<=26;i++){
         day_col: 'Days',  //  RFS
         times_of_day: timesOfDay,  //  RFS
         times_of_day_bounds: timesOfDayBounds,
+        //  PAList consumer, fortnight.PAList should have ConsumerSchema
         modal_placeholder: 'modalGeo'  //  RFS
     }
+    // all schema members line below can be inferred with name and Duration.
+    // fortnight.PAList:[newSchema{name:String RFS,PADurationSchema{Insuff:Number,RegM:Number,RegV:Number,Long:Number},PAIntensitySchema{},PAFreqSchema{},PAMod{}}],
     fortnight['adhered_cal_view']={
         title: 'Adhered Calendar (Admin View)',  //  RFS
         context: 'The Differences between Scheduled and Adhered will be color coded. Phone location data should be broadly permitted to allow location inference (eg, outdoor period is minimum distance from known indoor location',  //  RFS
@@ -98,7 +101,7 @@ for(let i=1;i<=26;i++){
             {author:'',labels:[],timeStamp:'',commentText:'Standing on 1 Leg'}
         ]
     };
-    fortnight['rules_header']={
+    fortnight['rules_header']={  //  RFS, rule-ify
         title: 'Rules Header',
         click_holding: 'Held',
         rules_list: [
