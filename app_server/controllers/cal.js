@@ -37,39 +37,39 @@ fortnightsList=[];
 for(let i=1;i<=26;i++){
     fortnight={};
     fortnight['ordinal_number']=i;
-    fortnight['cal-mon_title']='th Fortnight of 2029'
+    fortnight['cal-mon_title']='th Fortnight of 2029'  //  remove from schema (rfs)
     if(i%10==1) fortnight['cal-mon_title']='st Fortnight of 2029'
     if(i%10==2) fortnight['cal-mon_title']='nd Fortnight of 2029'
     if(i%10==3) fortnight['cal-mon_title']='rd Fortnight of 2029'
-    fortnight['pending']=true;  // greyed or saturation change for card bg or page bg 
+    fortnight['pending']=true;  // greyed or saturation change for card bg or page bg  //  RFS
     if((today-y23jan1)/604800000/2 > i)
         fortnight['pending']=false;
-    fortnight['day_names']=daysNames;
-    fortnight['card_titles']=[
+    fortnight['day_names']=daysNames;  //  RFS
+    fortnight['card_titles']=[  //  RFS
         'Margin','Calendar of Timeslots','Waking Active Times',
         'Modes','Nutrient Balance','Json/Rules Header','Comments'
     ]
-    fortnight['margin_subheadings']=['Citation References','Main Citation Content','Formatting Example','Full Real Example'];
+    fortnight['margin_subheadings']=['Citation References','Main Citation Content','Formatting Example','Full Real Example'];  //  RFS
     fortnight['scheduled_cal_view']={
-        title: 'Calendar: Schedule of Timeslots',
-        context: 'Hover over Timeslots to see scheduled activities',
-        draft_button_text: 'Draft a schedule for your activities',
-        day_col: 'Days',
-        times_of_day: timesOfDay,
+        title: 'Calendar: Schedule of Timeslots',  //  RFS
+        context: 'Hover over Timeslots to see scheduled activities',  //  RFS
+        draft_button_text: 'Draft a schedule for your activities',  //  RFS
+        day_col: 'Days',  //  RFS
+        times_of_day: timesOfDay,  //  RFS
         times_of_day_bounds: timesOfDayBounds,
-        modal_placeholder: 'modalGeo'
+        modal_placeholder: 'modalGeo'  //  RFS
     }
     fortnight['adhered_cal_view']={
-        title: 'Adhered Calendar (Admin View)',
-        context: 'The Differences between Scheduled and Adhered will be color coded. Phone location data should be broadly permitted to allow location inference (eg, outdoor period is minimum distance from known indoor location',
-        draft_button_text: 'Draft a notification for the user/usergroup',
-        day_col: 'Days',
-        times_of_day: timesOfDay,
+        title: 'Adhered Calendar (Admin View)',  //  RFS
+        context: 'The Differences between Scheduled and Adhered will be color coded. Phone location data should be broadly permitted to allow location inference (eg, outdoor period is minimum distance from known indoor location',  //  RFS
+        draft_button_text: 'Draft a notification for the user/usergroup',  //  RFS
+        day_col: 'Days',  //  RFS
+        times_of_day: timesOfDay,  //  RFS
         times_of_day_bounds: timesOfDayBounds,
-        modal_placeholder: 'modalGeo'
+        modal_placeholder: 'modalGeo'  //  RFS
     }
     fortnight['modes']={
-        title: 'Modes',
+        title: 'Modes',  //  RFS
         mode_list: [
             { name: 'inhibitory_control', mode: 2 },
             { name: 'fatigue', mode: 1 },  // opinion based and analysis based poll issuance at the end of each fortnight
@@ -79,16 +79,19 @@ for(let i=1;i<=26;i++){
         ]
     }
     fortnight['nutrient_balance']={  // logged or 6 week averaged
-        title: 'Nutrient Balance',
+        title: 'Nutrient Balance',  //  RFS
         food_list: [
-            { name: 'eggs', measure: Math.ceil(Math.random()*3 +2), unit: 'count'},
-            { name: 'olive_oil', measure: Math.ceil(Math.random()*50 +200), unit: 'calories'},
-            { name: 'butter', measure: Math.ceil(Math.random()*10 +60), unit: 'calories'}
+            {   name: 'eggs', 
+                measure_list: [ {measure: Math.ceil(Math.random()*3 +2), unit: 'count'} ]},
+            {   name: 'olive_oil', 
+                measure_list: [ {measure: Math.ceil(Math.random()*50 +200), unit: 'calories'} ]},
+            {   name: 'butter', 
+                measure_list: [ {Math.ceil(Math.random()*10 +60), unit: 'calories'} ]}
         ]
     }
     fortnight['comments']={
-        title:'Comments',
-        button_text:'Add Comment',
+        title:'Comments',  //  RFS
+        button_text:'Add Comment',  //  RFS
         comments_list: [
             {author:'',labels:[],timeStamp:'',commentText:'Strict Olive Oil Calories'},
             {author:'',labels:[],timeStamp:'',commentText:'No Cooking with Fat'},
