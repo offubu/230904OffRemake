@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .row.banner
+    .col-12
+      h1= title
+  .row
+    .col-12.col-md-4
+      p
+        | Reference List -> schema stage
+        | <br/> <br/> #{content}
+    .col-12.col-md-8
+      .card.card-primary
+
+        .card-body
+          p A Decade
+          - for (let y=0;y<years.length/5;y++)
+            <br/>
+            .row    
+              - for (let z=0;z<5;z++)
+                .col-2
+                  .card.card-body(style={'align': centre}) 
+                    a(style={'align': centre})(href='/years/fortnights-list') #{years[y*5+z]}
+            //-   .col-6
+            //-     .card.card-body 
+            //-       p #{years[y*4+1]}
