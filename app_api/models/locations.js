@@ -9,8 +9,8 @@ const openingTimeSchema = new goo.Schema({
 const reviewSchema = new goo.Schema({
     author: String,
     rating: { type: Number, required: true, min: 0, max: 5 },
+    timestamp: Date,
     reviewText: String,
-    createdOn: { type: Date, 'default': Date.now }
 });
 
 const locationSchema = new goo.Schema({

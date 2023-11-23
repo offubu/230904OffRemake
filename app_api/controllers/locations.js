@@ -1,13 +1,37 @@
 const goo = require('mongoose');
 const Loc = goo.model('Location');
 
-const locationsListByDistance = (req, res) => {
-    // res.status(200).json({"status":"success"})
-    Loc.find().then( (locations) => { 
-            if(!locations){ return res.status(404).json({ "empty_app":"the db is empty." }); }
-            res.status(200).json(locations); 
-        } ).catch( (err) => { console.log(err); } );
+const locationsListByDistance = async(req, res) => {
+    const lng = parseFloat(req.query.lng);
+    const lat = parseFloat(req.query.lat);
+    if((!lng && lng !== 0) || (!lat && lat !== 0)) return res.status(404).json({msg: 'both lng and lat are required for a valid location query'});
+    console.log("lng and lat: ",lng, lat);
+    const near = { type: "Point",  coordinates: [lng,lat] };
+    const geoOptions = {
+        distanceField: 'distance.calculated',
+        spherical: true, maxDistance: 20000,
+        // limit: 10  => requires new syntax for page counting
+    }
+    try{
+        const results = await Loc.aggregate([ 
+            { $geoNear: { near, ...geoOptions } }
+        ]);
+        console.log('api_controllers results:');
+        const locations = results.map( result => {
+            return {
+                _id: result._id,
+                name: result.name,
+                address: result.address,
+                rating: result.rating,
+                facilities: result.facilities,
+                distance: result.distance.calculated.toFixed()
+                // distance: `${result.distance.calculated.toFixed()}m`
+            }
+        });
+        res.status(200).json(locations);
+    } catch(err) {return res.status(400).json({log: err})}
 };
+
 const locationsCreate = (req, res) => {
     Loc.create({
         name: req.body.name, address: req.body.address,

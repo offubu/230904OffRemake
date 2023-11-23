@@ -17,4 +17,6 @@ process.on('SIGINT',()=> { rollOff('app termination', ()=> { process.exit(0); })
 process.on('SIGTERM',()=> { rollOff('Heroku SIGTERM termination', ()=> { process.exit(0); }); });
 
 require('./locations');
-// require('./cal');
+require('./cal');
+// require('./activeDurationTest');
+// require('./dailyActiveDurationTest');

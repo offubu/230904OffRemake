@@ -97,3 +97,74 @@ body {
 input {
   width: 200px;
 }
+
+.cal-card{
+  height: 350px;
+}
+
+.sticky-xhead-ymarg-scroll-window{
+  display: flex;  flex: 1 1 100%;
+  flex-direction: column;
+  max-width: 200%;  max-height: 200%;
+  overflow: scroll;
+  /* justify-content: space-between; */
+}
+.ca-days-hours-table{
+  flex: 1 1 200%;
+  width:2300px;  height: 400px;
+  min-width: 0;  min-height: 0;
+}
+.day-margin-keeper{
+
+}
+.scroll-corrector-stackoverflow-WRAP-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  padding:0.4rem;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+  background-color: gray;
+}
+.days-col{
+  min-height:0;
+  display: flex;
+  flex-direction: column;
+  flex: 1, 1, auto;
+}
+.days-scroll {
+  flex: 1 0 200%;
+  /* background-color: green;   */
+  min-height:0;
+  /* height: 300px; */
+  /* position: absolute;
+  left:0px; */
+  /* overflow-y: scroll; */
+}
+
+.scroll-hours-stackoverflow-WRAP-card-body {
+  display: flex;
+  flex: 1 1 200%;
+  max-width: 200%;
+  padding-left:2rem;
+  flex-direction: row;
+  overflow-x: scroll;
+  /* width: 1800px; */
+  justify-content: space-between;
+}
+.hours-scroll{
+  flex: 1 0 200%;
+  width:1800px;  
+  min-width:0;
+  /* overflow-x: scroll; */
+  /* overflow: auto; */
+  /* padding-left: 40px; */
+}
+
+
+
+.card-body{
+  -ms-flex:1 1 auto;
+  flex:1 1 auto;
+  padding:0.4rem
+}

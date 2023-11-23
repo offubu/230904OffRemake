@@ -15,11 +15,11 @@ html
             #navbarMain.navbar-collapse.collapse
                 ul.navbar-nav.mr-auto
                     li.nav-item
-                        a.nav-link(href='/fortnights-list/') Fortnights
+                        a.nav-link(href='/years') Fortnights
                     li.nav-item
                         a.nav-link(href='/about/') About
 
-    .container.content
+    .container.content(style={position:'relative'})
         block content
 
         footer
@@ -30,3 +30,4 @@ html
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js')
     script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/jquery.js')

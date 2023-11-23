@@ -2,7 +2,8 @@ var yday = new Date(2023, 5, 13); var today = new Date()
 var this_year_jan_1st_unix = new Date(today.getFullYear(),0,1);
 
 
-console.log(
+function dateLog() {console.log(
+    "server/controllers/cal test logging",
     "\n|| || millisPerDay:  t/24/60/60/1000 = t/86400000",
     "|| || millisPerWeek:  t/7/24/60/60/1000 = t/604800000",
     "|| || millisPerFortnight:  t/2/7/24/60/60/1000 = t/1209600000\n",
@@ -26,7 +27,7 @@ console.log("days between yday and today: ", (today-yday)/86400000);
 console.log("todayUnixWeeks: ", today/604800000);
 console.log("todayUnixWeeksSince Jan1st2023: ", (today-this_year_jan_1st_unix)/604800000);
 console.log("todayUnixFortnightsSince Jan1st2023: ", (today-this_year_jan_1st_unix)/604800000/2);
-
+}
 
 //  aim to experience inhibitory control with a weekly rudder to settle into a fortnights basis for 18 months
 biasList=[
@@ -47,12 +48,13 @@ timesOfDayBounds={  // if user is strict waking for 4 years, change_all_weeks()
     Afternoon_Begin:mins_time(720),Afternoon_End:mins_time(1019),
     Evening_Begin:mins_time(1020),Evening_End:mins_time(1200)
 }
-
+// console.log(this_year_jan_1st_unix.getTime())
 yearsList = [];
 fortnightsList=[];
 midnights = 0;
 var startYear = new Date(today.getFullYear(),0,1);
 for(let y=0;y<10;y++){
+    console.log('ser/cont/cal fnightList logging');
     year = {}
     year['number']=startYear.getFullYear();
     for(let i=1;i<=27;i++){
@@ -168,11 +170,11 @@ for(let y=0;y<10;y++){
     startYear = new Date(startYear.getFullYear()+1,0,1);
 }
 console.log(
-    "\n",
-    fzero,
+    "\n", fzero,
+    "\n", fzero.getTime(),
     // Object.keys(fortnightsList[21]).slice(0,4),
-    fortnightsList.length
-    );
+    fortnightsList.length, new Date(), 
+);
 
 for(u=0;u<144;u++){
     if(u%80==0){
@@ -187,33 +189,116 @@ for(u=0;u<144;u++){
 decade_years = []
 yearsList.forEach(y => decade_years.push(y.number))
 console.log("dyears:",decade_years);
-console.log(yearsList[0].fortnights[0].scheduled_cal_view.scheduled_activities);
+// console.log(yearsList[0].fortnights[0].scheduled_cal_view.scheduled_activities);
 
-const decadeList = (req, res) => {
-    res.render('cal-decade',{
-        years: decade_years,
+const http = require('http');
+
+const renderDecadeList = (req,res,data) => {
+    let stored = true;
+    if(data.length == 0) stored = false;
+    let today = new Date(); let thisyear = today.getFullYear; 
+    let decadeRender = { 
+        pre: stored, current_year: thisyear, 
+        view_years: decade_years, years: data,
         content: 'increase string length with 1. changing PA relation to longevity over long duration, 2. Periods of the body'
+    }
+    return res.render('cal-decade', decadeRender);
+}
+const decadeList = (req, res) => { 
+    http.get( `http://localhost:3400/api/years`, response => { let data=[]; 
+        const headerDate = response.headers && response.headers.date ? response.headers.date : 'no response date'; console.log( 'Status Code:', response.statusCode, 'Date in Response header:', headerDate );
+        response.on('data', chunk => { data.push(chunk);  console.log('data <- chunk:',data); });
+        response.on('end', () => { console.log('decadeList response.end log');
+            data = JSON.parse(Buffer.concat(data).toString()); console.log('"data" JSON.parse(Buffer.concat(data).toString()): ',data);
+            renderDecadeList(req,res,data);
+        })
     });
 };
 
-const cal = (req, res) => {
-    res.render('cal-mon', { title: 'Calendar' });
+const renderCal = (req,res,data) => {
+    console.log('render accessing element response: ',data.ordinal_number);
+    let ddays = [];
+    for(let del=0;del<data.days.length;del++){ ddays.push(data.days[del]); }
+    res.render('cal-mon', { 
+        title: 'Calendar',
+        year: req.params.year,
+        fortnight: req.params.fortnight,
+        testWake: 4,
+        days: data.days
+    });
+    console.log('DAYS:',data.days);
+};
+const cal = (req, res) => { 
+    console.log('scroll loaded');
+    http.get( `http://localhost:3400/api/years/${req.params.year}/${req.params.fortnight}`, response => { let data=[]
+        response.on('data', chunk => { console.log('chunk received:',chunk); data.push(chunk)});
+        response.on('end', () => { data = JSON.parse(Buffer.concat(data).toString()); console.log('"data" JSON.parse(Buffer.concat(data).toString()): ',data);
+            renderCal(req,res,data);
+        });
+    });
+    // let rulidtxt = window.document.getElementById('rulid').textContent
+    // console.log('ser/cont/cal jq, rulid:');
+};
+
+const renderDraftSch = (req, res, data) => {
+    res.render('cal-draft-sch', { 
+        title: 'draft a schedule for review by your trainer' 
+    });
 };
 const draftSch = (req, res) => {
-    res.render('cal-draft-sch', { title: 'draft a schedule for review by your trainer' });
+    renderDraftSch(req,res);
 };
 
-const fortnightList = (req, res) => {
-    res.render('cal-fortnights-list', { 
-        title: 'Fortnights of This Year',
-        today: ''
+const renderActivityForm = (req,res) => {
+    res.render('cal-mon-activity-form', {
+        year: req.params.year,
+        fortnight: req.params.fortnight
     });
+}
+const activityForm = (req,res) => {
+    renderActivityForm(req,res);
+}
+
+const renderFortnightList = (req,res,data) => {
+    let dataFortnights = data[0].fortnights;
+    let renderListFortnights = [];
+    console.log("array?",data);
+    for(let f =0; f<dataFortnights.length; f++){
+        f_el = {
+            ordinal_number: dataFortnights[f].ordinalNumber,
+            day1_fzero: dataFortnights[f].day1Fzero
+        }
+        renderListFortnights.push(f_el)
+    }
+    res.render('cal-fortnights-list', { 
+        year: req.params.year,
+        title: 'Fortnights of This Year',
+        today: '',
+        fortnights: renderListFortnights
+    });
+}
+const fortnightList = (req, res) => {
+    console.log(req.params.year);
+    http.get( `http://localhost:3400/api/years/${req.params.year}`,
+        response => {
+            let data = [];  const headerDate = response.headers && response.headers.date ? response.headers.date : 'no response date';
+            console.log( 'Status Code:', response.statusCode, 'Date in Response header:', headerDate );
+            if(response.statusCode!=200) return res.status(response.statusCode).json({msg:'api/years/:year is empty'});
+            response.on('data', chunk => { data.push(chunk);  console.log('data <- chunk:',data); });
+            response.on('end', () => { console.log('fortnightList response.end log')
+                data = JSON.parse(Buffer.concat(data).toString()); console.log('"data" JSON.parse(Buffer.concat(data).toString()): ',data);
+                renderFortnightList(req,res,data);
+            })
+        }  
+    );
 };
 
 module.exports = {
     decadeList,
     cal,
     draftSch,
+    activityForm,
     fortnightList
 };
-  
+
+console.log("server/controllers/cal test logging closeing after module exports");

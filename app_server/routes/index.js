@@ -6,14 +6,17 @@ const ctrlOthers = require('../controllers/others');
 
 //  Loc8r
 router.get('/', ctrlLocations.homelist);
-router.get('/location', ctrlLocations.locationInfo);
-router.get('/location/review/new', ctrlLocations.addReview);
+router.get('/location/:locationid', ctrlLocations.locationInfo);
+router.route('/location/:locationid/review/new')
+    .get(ctrlLocations.addReview)
+    .post(ctrlLocations.doAddReview);
 
 //  calmon
 router.get('/years', ctrlCal.decadeList);
-router.get('/years/fortnights-list', ctrlCal.fortnightList);
-router.get('/cal-mon', ctrlCal.cal);
-router.get('/cal-mon/draft-schedule', ctrlCal.draftSch);
+router.get('/years/:year', ctrlCal.fortnightList);
+router.get('/years/:year/:fortnight', ctrlCal.cal);
+router.get('/years/:year/:fortnight/draft-schedule', ctrlCal.draftSch);
+router.get('/years/:year/:fortnight/activity-form', ctrlCal.activityForm);
 
 router.get('/about', ctrlOthers.about);
 
