@@ -216,28 +216,21 @@ const decadeList = (req, res) => {
 };
 
 const renderCal = (req,res,data) => {
-    console.log('render accessing element response: ',data.ordinal_number);
-    let ddays = [];
-    for(let del=0;del<data.days.length;del++){ ddays.push(data.days[del]); }
     res.render('cal-mon', { 
         title: 'Calendar',
-        year: req.params.year,
-        fortnight: req.params.fortnight,
+        year: req.params.year,    fortnight: req.params.fortnight,
         testWake: 4,
         days: data.days
     });
-    console.log('DAYS:',data.days);
 };
 const cal = (req, res) => { 
     console.log('scroll loaded');
     http.get( `http://localhost:3400/api/years/${req.params.year}/${req.params.fortnight}`, response => { let data=[]
-        response.on('data', chunk => { console.log('chunk received:',chunk); data.push(chunk)});
-        response.on('end', () => { data = JSON.parse(Buffer.concat(data).toString()); console.log('"data" JSON.parse(Buffer.concat(data).toString()): ',data);
+        response.on('data', chunk => { console.log('chunk received'); data.push(chunk)});
+        response.on('end', () => { data = JSON.parse(Buffer.concat(data).toString()); console.log('"data" JSON.parse(Buffer.concat(data).toString()): ',data.days[4]);
             renderCal(req,res,data);
         });
     });
-    // let rulidtxt = window.document.getElementById('rulid').textContent
-    // console.log('ser/cont/cal jq, rulid:');
 };
 
 const renderDraftSch = (req, res, data) => {

@@ -30,11 +30,11 @@ const yearsList = (req, res) => {
 };
 //  currentRoutineCodesNamesMinutes  (cRCNM)
 let cRCNM = [  
-    { name: 'Do Not Disturb', code: 'r0000', begin: 5, mins: 50 },
-    { name: 'Cook And Eat Breakfast', code: 'r0001', begin: 6.5, mins: 40 },
-    { name: 'Cook And Eat Lunch', code: 'r0002', begin: 12, mins: 70 },
-    { name: 'Cook And Eat Dinner', code: 'r0003', begin: 17, mins: 70 },
-    { name: 'Wash And Sleep Prep', code: 'r0010', begin: 21, mins: 70 }
+    { name: 'Do Not Disturb', code: 'r000', begin: 5, mins: 50 },
+    { name: 'Cook And Eat Breakfast', code: 'r001', begin: 6.5, mins: 40 },
+    { name: 'Cook And Eat Lunch', code: 'r002', begin: 12, mins: 70 },
+    { name: 'Cook And Eat Dinner', code: 'r003', begin: 17, mins: 70 },
+    { name: 'Sleep Prep', code: 'r010', begin: 21, mins: 70 }
 ]
 
 const defWakeSleepStringToFloat = (l4string24Time) => {

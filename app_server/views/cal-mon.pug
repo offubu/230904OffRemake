@@ -12,37 +12,35 @@ block content
           .col-12
             form(action=`/api/years/${year}/${fortnight}/intent`, method="post", role="form")
               .form-group.row
-                label.col-2.col-form-label(for="agroup") Activity Type
+                label.col-2.col-form-label(for="pomGroup") Activity Type
                 .col-4
-                  select#agroup.form-control.input-sm(name="agroup")
-                    option Physical Activity Intent
-                    option General Activity Intent
+                  select#pomGroup.form-control.input-sm(name="pomGroup")
+                    option(value="blank") Select a Type
+                    option Intended Physical Activity
+                    option Intended General Activity
                     option Expected Routine Activity
               .form-group.row
-                label.col-2.col-form-label(for="name") Name
+                label.col-2.col-form-label(for="pomCode") Activity Code
                 .col-4
-                  input#name.form-control(name="name")
-                label.col-2.col-form-label(for="acode") Activity Code
+                  select#pomCode.form-control.input-sm(name="pomCode")
+                    option Select a Type to show Activities
+                label.col-2.col-form-label(for="pomName") Name
                 .col-4
-                  select#acode.form-control.input-sm(name="acode")
-                    option 1000(No Activity)
-                    option 1001(Walking)
-                    option 1002(Running)
-                    option 9001(Pilates)
-                    option 9002(Yoga)
+                  input#pomName.form-control(name="pomName")
 
               .form-group.row
-                label.col-2.col-form-label(for="begin") Begin
+                label.col-2.col-form-label(for="pomBegin") Begin
                 .col-4
-                  input#begin(type="datetime-local" name="begin").form-control
-                label.col-2.col-form-label(for="end") End
+                  input#pomBegin(type="datetime-local" name="pomBegin").form-control
+                label.col-2.col-form-label(for="pomEnd") End
                 .col-4
-                  input#end(type="datetime-local" name="end").form-control
+                  input#pomEnd(type="datetime-local" name="pomEnd").form-control
+                  input#pomQd(type="hidden" name='pomQd').form-control
                 
               .form-group.row
                 .col-10
                 .col-2
-                  input#add(type="submit" name="add" value="Add Activity").float-right
+                  input#pomAdd(type="submit" name="pomAdd" value="Add Activity").float-right
   
   div(class='modal fade', id="getModal", tabindex="-1", role="dialog", aria-labelledby="exampleModalLabel" aria-hidden="true")
     div(class="modal-dialog modal-lg", role="document")
@@ -50,7 +48,52 @@ block content
         .row(style={margin:'0',padding:"10px 10px"}).banner
           .col-12
             h5.float-right (Esc to exit)
-            h1 Activity Info
+            h1 Intended Activity Info
+        .row(style={margin:'0',padding:"10px 10px"})
+          .col-12
+            form(action=`/api/years/${year}/${fortnight}/intent`, method="post", role="form")
+              .row
+                .col-2 Activity Type
+                .col-4#gmGroup InnerHTML(Type)
+              .row
+                .col-2 Activity Name
+                .col-4#gmName InnerHTML(Name)
+                .col-2 Activity Code
+                .col-2#gmCode InnerHTML(Code)
+                .col-2 
+                  a#gmDEL.btn.btn-primary.float-right &#128465
+
+              .row
+              br
+              .form-group.row
+                label.col-2.col-form-label(for="gmBegin") Begin 
+                .col-4
+                  input#gmBegin(type="datetime-local" name="gmBegin").form-control
+                label.col-2.col-form-label(for="gmEnd") End 
+                .col-4
+                  input#gmEnd(type="datetime-local" name="gmEnd").form-control
+              .form-group.row
+                .col-6
+                .col-6
+                  input.float-right#gmAdd(style={width:'100%',height:'100%'},type="submit" name="gmAdd" value="Update Activity Duration")
+              //- .form-group.row
+              //-   .col-12
+              //-     a#gmDEL.btn.btn-primary.float-right &#128465
+        .row(style={margin:'0',padding:"0 0"}).banner
+        .row(style={margin:'0',padding:"10px 10px"}).banner
+        .row(style={margin:'0',padding:"10px 10px"}).banner
+          .col-12
+            h1 Adhered Activity Info
+          .card
+            p Person Carried Out Physical Activity 
+            p Intended Physical Activity Period was 90% adhered 
+            p Intended Physical Activity Duration was 110% adhered 
+        .row(style={margin:'0',padding:"10px 10px"})
+        .row(style={margin:'0',padding:"10px 10px"})#extraPost
+
+
+
+                  
 
   div(class='modal fade', id="activeTimesPutModal", tabindex="-1", role="dialog", aria-labelledby="exampleModalLabel" aria-hidden="true")
     div(class="modal-dialog modal-lg", role="document")
@@ -59,6 +102,17 @@ block content
           .col-12
             h5.float-right (Esc to exit)
             h1 Change Active Times (Overflowing Activities will be preserved)
+        .row(style={margin:'0',padding:"10px 10px"})
+          .col-12
+            form(action=`/api/years/${year}/${fortnight}/intent`, method="post", role="form")
+              .form-group.row
+                label.col-2.col-form-label(for="pomBegin") Begin
+                .col-4
+                  input#pomBegin(type="datetime-local" name="pomBegin").form-control
+                label.col-2.col-form-label(for="pomEnd") End
+                .col-4
+                  input#pomEnd(type="datetime-local" name="pomEnd").form-control
+              
 
   .row.banner
     .col-12
@@ -115,39 +169,44 @@ block content
         .card-block.card-header
           .row
             .col-2
-              .card-body.card-header(style={'text-align':'center',padding:'2px 0 2px 0','margin':'0px 0.5px 0px 0.5px'})
+              .card-body.card-header(style={'text-align':'center',padding:'2px 0','margin':'0px 0.5px'})
                   p.card-header Day
               -for(let d=1;d<15;d++)
-                .card-body.card-header(style={'text-align':'center',padding:'1.9px 0 1.9px 0','margin':'0 1px 0 1px'})
+                .card-body.card-header(style={'text-align':'center',padding:'1.9px 0','margin':'0 1px'})
                   .card-header(style={'margin':'0px 1px 0px 1px'}) 
-                    p #{d} day
+                    - let dD = new Date(days[d-1].date)
+                    - let dno = dD.getDay(); let diso10 = dD.toISOString().slice(0,10);
+                      p #{diso10}
             .col-10
               .sticky-xhead-ymarg-scroll-window
                 .ca-days-hours-table(style={'padding-left':'15px'})
                   .row
-                    - for(let i=1;i<=12;i++)
-                      .card-body.card-header.col-1(style={'text-align':'center',padding:'1px 0 1px 0'})
-                        .row(style={'margin-right':'0','margin-left':'0'})
-                          .col-6(style={padding:'0'})
-                            p.card-header(style={'margin':'0px 1px 0px 1px'}) #{i*2-1}
-                          .col-6(style={padding:'0'})
-                            p.card-header(style={'margin':'0px 1px 0px 1px'}) #{i*2}
+                    - for(let i=0;i<12;i++)
+                      .card-body.card-header.col-1(style={'text-align':'center',padding:'0'})
+                        .row(style={'margin':'0'})
+                          - let l='';let r='';
+                          - if(i<5){ l = `0${i*2}:00`; r = `0${i*2+1}:00`; }
+                          - if(i>4){ l = `${i*2}:00`; r = `${i*2+1}:00`; }
+                            .col-6(style={padding:'0'})
+                              p.card-header(style={'margin':'0px 1px'}) #{l}
+                            .col-6(style={padding:'0'})
+                              p.card-header(style={'margin':'0px 1px'}) #{r}
                   - for(let d=1;d<=14;d++)
                     .row(style={height:'34.9px','margin-bottom':'0'})
-                      - for(let g=1;g<=12;g++)
-                        .card-body.card-header.col-1(style={'text-align':'center',padding:'2px 0 2px 0'})
-                          .row(style={padding:'0 0 0 0','margin':'0 0 0 0'})
+                      - for(let g=0;g<12;g++)
+                        .card-body.card-header.col-1(style={'text-align':'center',padding:'2px 0'})
+                          .row(style={padding:'0','margin':'0'})
                             - for(let h=0;h<=1;h++)
-                              .col-3(style={padding:'0',margin:'0'}, class="winelcol", id=`c${d}d${g*2-1+h}h00m`)
-                                .card-header(style={'margin':'0px 1px 0px 1px',padding:'3px 0 3px 0'})
-                                  hr(class="hry", style={height:'2px',background:'yellow',width:'0%',margin:'-3px 0px 0px 70%',padding:'0'})
-                                  a(class="winel", id=`${d}d${g*2-1+h}h00m`, style={opacity:'20%',padding:'0',margin:'0'},'data-toggle'='modal', 'data-target'='#postModal') &#10133
-                                  hr(class="hrc", style={height:'2px',background:'cyan',width:' 0%',margin:'0px 1px -3px 50%',padding:'0'})
-                              .col-3(style={padding:'0',margin:'0'}, class="winelcol", id=`c${d}d${g*2-1+h}h30m`)
-                                .card-header(style={'margin':'0px 1px 0px 1px',padding:'3px 0 3px 0'}) 
-                                  hr(class="hry",style={height:'2px',background:'yellow',width:'0%',margin:'-3px 1px 0px 0px',padding:'0'})
-                                  a(class="winel", id=`${d}d${g*2-1+h}h30m`, style={opacity:'20%',padding:'0',margin:'0'},'data-toggle'='modal', 'data-target'='#postModal') &#10133
-                                  hr(class="hrc", style={height:'2px',background:'cyan',width:'0%',margin:'0px 1px -3px 0px',padding:'0'})
+                              .col-3(style={padding:'0',margin:'0'})
+                                .card-header.winelch(id=`c${d}d${g*2+h}h00m`, style={height:'30px','margin':'0px 0.5px',padding:'2px 0'})
+                                  span(class="iaBarSpan")
+                                  a(class="winel", id=`${d}d${g*2+h}h00m`, style={opacity:'20%',padding:'0',margin:'0',cursor:'cell'},'data-toggle'='modal', 'data-target'='#postModal') &#10133
+                                  span(class="aaBarSpan")
+                              .col-3(style={padding:'0',margin:'0',height:'30px'})
+                                .card-header.winelch(id=`c${d}d${g*2+h}h30m`, style={height:'30px','margin':'0px 0.5px',padding:'2px 0'}) 
+                                  span(class="iaBarSpan")
+                                  a(class="winel", id=`${d}d${g*2+h}h30m`, style={opacity:'20%',padding:'0',margin:'0',cursor:'cell'},'data-toggle'='modal', 'data-target'='#postModal') &#10133
+                                  span(class="aaBarSpan")
           .row 
             .card-body
               .col-2
@@ -155,123 +214,10 @@ block content
                   .output 
 
           script.
-            let pageDays  = !{JSON.stringify(days)};
-
-            let bt = document.querySelector("#begin"); 
-            let et = document.querySelector("#end"); 
-            bt.addEventListener( 'keyup',
-              () => {  console.log(bt.value)
-                let keyupBtVal = new Date(bt.value); 
-                keyupBtVal.setMinutes(keyupBtVal.getMinutes() + 1);
-                et.min = keyupBtVal.toISOString().slice(0,16);
-              }
-            )
-
-            let hryEls = document.getElementsByClassName("hry");
-            let hrcEls = document.getElementsByClassName("hrc");
-            for(let y=0;y<hryEls.length;y++){ hryEls[y].style.width='10%'; }
+            console.log("inline script.:");
+            console.log(window.location.pathname);
+          script(src="/javascripts/calmon-jquery.js")
             
-            //- let wlc = document.getElementsByClassName("winelcol");
-            let wl = document.getElementsByClassName("winel");
-            for(let w=0;w<wl.length;w++){
-              //- let idwwlc = document.getElementById(wl[w].id); console.log('idwwl.id:',idwwl.id);
-              let idwwl = document.getElementById(wl[w].id); console.log('idwwl.id:',idwwl.id);
-              let idbuf='';let wind=0;let winh=0;let winm=0;
-              for(c in idwwl.id){ idbuf+=idwwl.id[c];
-                if(idwwl.id[c]=='d'){ wind=parseInt(idbuf); console.log('wind:',wind); idbuf=''; continue; }
-                if(idwwl.id[c]=='h'){ winh=parseInt(idbuf); console.log('winh:',winh); idbuf=''; continue; }
-                if(idwwl.id[c]=='m'){ winm=parseInt(idbuf); console.log('winm:',winm); idbuf=''; continue; }
-              }
-              console.log(`days[wind]: `,pageDays[wind-1]);
-
-              idwwl.addEventListener( "click",
-                () => {  console.log('clickListener=>outer_scope_idwwl.id:',idwwl.id)                
-                  let selectTime = new Date(pageDays[wind-1].date); 
-                  selectTime.setHours(winh);
-                  selectTime.setMinutes(winm);
-                  bt.value = selectTime.toISOString().slice(0,16);
-                  selectTime.setMinutes(selectTime.getMinutes() + 1);
-                  et.min = selectTime.toISOString().slice(0,16);
-                  et.value = selectTime.toISOString().slice(0,16);
-                }
-              )
-
-              let wdate = new Date(pageDays[wind-1].date);  
-              wdate.setHours(winh);  wdate.setMinutes(winm);
-              let wdate1 = new Date(wdate);  wdate1.setMinutes(wdate1.getMinutes()+30);
-              
-              // static5 powderblue
-              for(let i=0;i<5;i++){
-                let deraBegin = new Date(pageDays[wind-1].expectedRoutineActivities[i].duration.begin)
-                let deraEnd = new Date(pageDays[wind-1].expectedRoutineActivities[i].duration.end)
-                let deraT = deraEnd.getTime()-deraBegin.getTime();
-                if(deraT>3600000) console.log('over 1hr, 30 min intervals');
-                let deraIntervals = [];
-                let dIN = Math.ceil(deraT/1800000) - 2;
-
-
-                console.log(
-                  'wdate',wdate.toISOString().slice(0,16),
-                  '|| wdate1',wdate1.toISOString().slice(0,16),
-                  '|| deraBegin',deraBegin.toISOString().slice(0,16),
-                  '|| deraEnd',deraEnd.toISOString().slice(0,16),
-                  '|| deraT',deraT,  '|| dIN',dIN
-                );
-
-                //- if(dIN==0){
-                if(
-                  (deraBegin.getTime()>=wdate.getTime() && deraBegin.getTime()<wdate1.getTime())
-                  ||
-                  (deraEnd.getTime()>=wdate.getTime() && deraEnd.getTime()<wdate1.getTime())
-                ){  console.log('style changing');
-                  idwwl.style.background='red';  idwwl.style.opacity ='100%';
-                  idwwl.innerHTML = '&#128221';
-                  idwwl.dataset.target='#getModal'
-                }
-                //- }
-                if(
-                  (deraBegin.getTime()>=wdate.getTime() && deraBegin.getTime()<wdate1.getTime())
-                ){ let marL = (deraBegin.getMinutes()%30)/30;
-                  hryEls[w].style.margin='-3px 0 0 '+marL+'%';  //  LINE GEO FUNCTION
-                  if(deraEnd.getTime()>=wdate1.getTime()) hryEls[w].style.width='100%';
-                  if(deraEnd.getTime()<wdate1.getTime()) hryEls[w].style.width=`${(deraT%30)/30}%`;
-                }
-
-                if(dIN>0){
-                  for(let dI=1; dI<=dIN; dI++){  let interval = new Date(deraBegin);
-                    interval.setTime(interval.getTime()+dI*1800000);
-                    deraIntervals.push(interval);
-                  }
-                }
-
-                for(let dI=1;dI<=dIN;dI++){
-                  if(
-                    (deraIntervals[dI-1].getTime()>=wdate.getTime() && deraIntervals[dI-1].getTime()<wdate1.getTime())
-                  ){  console.log('style changing');
-                    idwwl.style.background='red';  idwwl.style.opacity ='100%';
-                    idwwl.innerHTML = '&#128221';
-                    idwwl.dataset.target='#getModal'
-                    hryEls[w].style.width='100%';  //  LINE GEO FUNCTION
-                  }
-                }
-              }
-            }
-
-            const scrollDemo = document.querySelector(".sticky-xhead-ymarg-scroll-window");
-            let earlyAmStart = !{testWake}; let scrollX = 2300/24*(earlyAmStart-1.5)
-            scrollDemo.scrollTo(scrollX,0)
-            const output = document.querySelector(".output");
-            scrollDemo.addEventListener( "scroll", 
-              event => {
-                output.innerHTML = `scrollTop: ${scrollDemo.scrollTop} <br>
-                                    scrollLeft: ${scrollDemo.scrollLeft} `;
-              }, 
-              { passive: true }
-            );
-
-            document.body.onload = () => {
-              console.log('referrer:',document.referrer,'earlyAmStart: ',`!{fortnight}`,`!{testWake}`)
-            }
 
 
   .row

@@ -18,8 +18,8 @@ router.route('/years/:year/:fortnight')
 router.route('/years/:year/:fortnight/intent')
     .get()  //  get intents
     .post(ctrlActivities.intentActivitiesCreate)  //  requested from more than 1 place?
-    .put()  //  overwrite delete is separate from specified delete.
-    .delete();  //  long term => "After 14 days, this intent will be deleted as it was not adhered. You can opt to grey the intent to keep it." Any intents that are not adhered should be deleted
+    // .put()  //  overwrite delete is separate from specified delete.
+    .delete(ctrlActivities.intentActivitiesDelete);  //  long term => "After 14 days, this intent will be deleted as it was not adhered. You can opt to grey the intent to keep it." Any intents that are not adhered should be deleted
 router.route('/years/:year/:fortnight/adhered')
     .get()  //  get adhereds
     .post(ctrlActivities.adheredActivitiesCreate)  //  requested from more than 1 place?

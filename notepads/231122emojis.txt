@@ -1,2 +1,4 @@
 &#128221 - notepad
 &#10133 - plus symbol
+&#128465 - trash can
+&#128269 - magnifying glass
